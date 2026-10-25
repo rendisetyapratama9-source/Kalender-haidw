@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kalender Haid</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf1f4;--card:#fff;--ink:#3b1f2e;--mut:#8b6a79;--line:#f0d9e1;--p:#d8386f;--onp:#fff;--pp:#fbd3e1;--f:#d9ebfb;--o:#2d78c2;--ono:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c1118;--card:#2a1a23;--ink:#f7e8ee;--mut:#bb9aa8;--line:#44303b;--p:#ff6b9c;--onp:#2a0f1b;--pp:#5b2540;--f:#1f3550;--o:#7bb8f0;--ono:#10243a}}
+:root[data-theme="dark"]{--bg:#1c1118;--card:#2a1a23;--ink:#f7e8ee;--mut:#bb9aa8;--line:#44303b;--p:#ff6b9c;--onp:#2a0f1b;--pp:#5b2540;--f:#1f3550;--o:#7bb8f0;--ono:#10243a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(120% 55% at 50% 0,color-mix(in srgb,var(--pp) 60%,transparent) 0,transparent 70%) no-repeat var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:480px;margin:0 auto;padding:16px 16px 40px}
+h1,.big{font-family:Fraunces,Georgia,serif;font-weight:700;margin:0}
+h1{font-size:26px;line-height:1.2}
+h2{font-size:17px;margin:0 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.mut{color:var(--mut)}.small{font-size:13px}
+label{display:block;margin:12px 0 0;font-size:14px;font-weight:600}
+input{display:block;width:100%;box-sizing:border-box;margin-top:5px;padding:11px 12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px}
+input:focus,button:focus-visible{outline:2px solid var(--p);outline-offset:2px}
+.btn{display:block;width:100%;margin-top:14px;padding:12px;border:0;border-radius:12px;background:var(--p);color:var(--onp);font:600 15px inherit;font-family:inherit;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:transparent;color:var(--p);border:1px solid var(--p)}
+.row{display:flex;gap:8px}.row .btn{margin-top:10px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin:4px 0 14px}
+.card{border-radius:22px;box-shadow:0 10px 28px -18px var(--p)}.head{align-items:center}.ava{flex:none;width:62px;height:62px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 2px var(--p);background:var(--pp);font-size:26px;cursor:pointer;padding:0;overflow:hidden}.ava img{width:100%;height:100%;object-fit:cover;display:block}.gal{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.slot{position:relative;aspect-ratio:1;border:2px dashed var(--line);border-radius:16px;background:var(--bg);color:var(--mut);overflow:hidden}.slot:nth-child(-n+3){grid-column:span 2}.slot:nth-child(n+4){grid-column:span 3}.slot img{width:100%;height:100%;object-fit:cover;display:block}.slot .add{width:100%;height:100%;border:0;background:none;color:inherit;font-size:30px;cursor:pointer}.slot .rm{position:absolute;top:5px;right:5px;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:15px;line-height:26px;border:0;padding:0;cursor:pointer}.gear{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:8px 12px;font:inherit;cursor:pointer}
+.big{font-size:44px;line-height:1.05;color:var(--p)}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.nav{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:20px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.grid b{font-size:12px;color:var(--mut);font-weight:600;padding-bottom:4px}
+.d{aspect-ratio:1;border:2px solid transparent;border-radius:50%;background:transparent;color:var(--ink);font:inherit;font-size:14px;cursor:pointer;padding:0}
+.d.p{background:var(--p);color:var(--onp);font-weight:700}
+.d.pp{background:var(--pp)}
+.d.f{background:var(--f)}
+.d.o{background:var(--o);color:var(--ono);font-weight:700}
+.d.t{border-color:var(--ink)}
+.d.s{box-shadow:0 0 0 2px var(--p)}
+.leg{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12.5px;color:var(--mut)}
+.leg span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;background:var(--c)}
+.hist{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:14.5px}
+.x{border:0;background:transparent;color:var(--mut);font-size:13px;text-decoration:underline;cursor:pointer}
+#msg{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;max-width:86%;display:none;z-index:5}
+</style></head><body>
+<div id="app"></div><div id="msg" role="status"></div>
+<script>
+var KEY='kalender-haid-v1',S=null,editing=false,view=new Date(),sel='';
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var $=function(s){return document.querySelector(s)};
+var BLN=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function pd(s){var a=s.split('-').map(Number);return new Date(a[0],a[1]-1,a[2])}
+function fd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function add(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
+function diff(a,b){return Math.round((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/864e5)}
+function today(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate())}
+function fmt(d){return d.getDate()+' '+BLN[d.getMonth()]+' '+d.getFullYear()}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function msg(t){var m=$('#msg');m.textContent=t;m.style.display='block';clearTimeout(msg.t);msg.t=setTimeout(function(){m.style.display='none'},2800)}
+function avg(a){return Math.round(a.reduce(function(x,y){return x+y},0)/a.length)}
+
+function stats(){
+  var ps=S.periods.slice().sort(function(a,b){return a.start<b.start?-1:1}),cyc=S.cycle,i,ds=[];
+  for(i=1;i<ps.length;i++)ds.push(diff(pd(ps[i-1].start),pd(ps[i].start)));
+  ds=ds.filter(function(x){return x>=18&&x<=45}).slice(-6);
+  if(ds.length)cyc=avg(ds);
+  var ls=ps.filter(function(p){return p.end}).map(function(p){return diff(pd(p.start),pd(p.end))+1}).filter(function(x){return x>=1&&x<=14}).slice(-6);
+  return{ps:ps,cyc:cyc,len:ls.length?avg(ls):5,last:pd(ps[ps.length-1].start),auto:ds.length>0}
+}
+function kind(d,st){
+  var t=today(),i,k,p,s,e;
+  for(i=0;i<st.ps.length;i++){p=st.ps[i];s=pd(p.start);
+    e=p.end?pd(p.end):add(s,Math.min(Math.max(diff(s,t),0),st.len-1));
+    if(d>=s&&d<=e)return'p'}
+  if(d<st.last)return'n';
+  var r='n';
+  for(k=1;k<=14;k++){
+    var ns=add(st.last,st.cyc*k),ov=add(ns,-14);
+    if(d>=ns&&d<=add(ns,st.len-1))return'pp';
+    if(+d===+ov)return'o';
+    if(d>=add(ov,-5)&&d<=add(ov,1))r='f'}
+  return r
+}
+function openPeriod(dateStr){
+  var c=S.periods.filter(function(p){return !p.end&&p.start<=dateStr}).sort(function(a,b){return a.start<b.start?1:-1});
+  return c[0]
+}
+function startAt(ds){
+  if(ds>fd(today()))return msg('Tanggal belum terjadi');
+  if(S.periods.some(function(p){return p.start===ds}))return msg('Tanggal itu sudah tercatat');
+  S.periods.push({start:ds,end:''});save();R();msg('Haid dimulai '+fmt(pd(ds)))
+}
+function endAt(ds){
+  var p=openPeriod(ds);
+  if(!p)return msg('Tidak ada haid yang sedang berlangsung');
+  if(diff(pd(p.start),pd(ds))>14)return msg('Haid lebih dari 15 hari, cek tanggalnya');
+  p.end=ds;save();R();msg('Haid selesai '+fmt(pd(ds)))
+}
+function del(s){if(confirm('Hapus catatan haid '+fmt(pd(s))+'?')){S.periods=S.periods.filter(function(p){return p.start!==s});if(!S.periods.length){S=null}save();R()}}
+function pick(s){sel=s;R()}
+function mv(n){view=new Date(view.getFullYear(),view.getMonth()+n,1);R()}
+function edit(v){editing=v;R()}
+function resetAll(){if(confirm('Hapus semua data? Ini tidak bisa dibatalkan.')){S=null;editing=false;try{localStorage.removeItem(KEY)}catch(e){}R()}}
+
+function form(first){
+  var v=S||{},mx=fd(today());
+  return '<div class="card"><h1>'+(first?'Selamat datang':'Ubah profil')+'</h1>'+
+  '<p class="mut">'+(first?'Isi data berikut supaya haid berikutnya dan masa subur bisa diperkirakan.':'Data haid tetap tersimpan.')+'</p>'+
+  '<label>Nama<input id="fn" value="'+esc(v.name||'')+'" placeholder="Nama kamu" autocomplete="off"></label>'+
+  '<label>Tanggal lahir<input id="fb" type="date" value="'+(v.dob||'')+'" max="'+mx+'"></label>'+
+  (first?'<label>Tanggal mulai haid terakhir<input id="fs" type="date" max="'+mx+'"></label>'+
+  '<label>Tanggal selesai haid <span class="mut small">(kosongkan kalau masih berlangsung)</span><input id="fe" type="date" max="'+mx+'"></label>':'')+
+  '<label>Panjang siklus biasanya (hari)<input id="fc" type="number" inputmode="numeric" min="21" max="45" value="'+(v.cycle||28)+'"></label>'+
+  '<button class="btn" onclick="saveForm('+first+')">Simpan</button>'+
+  (first?'':(v.photo?'<button class="btn ghost" onclick="S.photo=\'\';save();edit(false)">Hapus foto profil</button>':'')+'<button class="btn ghost" onclick="edit(false)">Batal</button><button class="btn danger" onclick="resetAll()">Hapus semua data</button>')+
+  '<p class="mut small">Data hanya tersimpan di browser ini. Prediksi berupa perkiraan dan bukan pengganti saran dokter.</p></div>'
+}
+function saveForm(first){
+  var name=$('#fn').value.trim(),dob=$('#fb').value,cyc=+$('#fc').value;
+  if(!name||!dob)return msg('Nama dan tanggal lahir wajib diisi');
+  if(!(cyc>=21&&cyc<=45))return msg('Panjang siklus harus antara 21 dan 45 hari');
+  if(first){
+    var s=$('#fs').value,e=$('#fe').value;
+    if(!s)return msg('Isi tanggal mulai haid terakhir');
+    if(e&&e<s)return msg('Tanggal selesai tidak boleh sebelum tanggal mulai');
+    if(e&&diff(pd(s),pd(e))>14)return msg('Haid lebih dari 15 hari, cek tanggalnya');
+    S={name:name,dob:dob,cycle:cyc,periods:[{start:s,end:e}]}
+  }else{S.name=name;S.dob=dob;S.cycle=cyc}
+  save();editing=false;view=new Date();sel=fd(today());R()
+}
+
+function cal(st){
+  var y=view.getFullYear(),m=view.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),
+  h=['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(function(x){return'<b>'+x+'</b>'}).join(''),d,i,ts=fd(today());
+  for(i=0;i<off;i++)h+='<i></i>';
+  for(d=1;d<=dim;d++){var dt=new Date(y,m,d),s=fd(dt);
+    h+='<button class="d '+kind(dt,st)+(s===ts?' t':'')+(s===sel?' s':'')+'" onclick="pick(\''+s+'\')" aria-label="'+fmt(dt)+'">'+d+'</button>'}
+  return'<div class="cal-h"><button class="nav" onclick="mv(-1)" aria-label="Bulan sebelumnya">‹</button><h2 style="margin:0">'+BLN[m]+' '+y+'</h2><button class="nav" onclick="mv(1)" aria-label="Bulan berikutnya">›</button></div><div class="grid">'+h+'</div>'+
+  '<div class="leg"><span style="--c:var(--p)">Haid</span><span style="--c:var(--pp)">Perkiraan haid</span><span style="--c:var(--f)">Masa subur</span><span style="--c:var(--o)">Ovulasi</span></div>'
+}
+var LBL={p:'Hari haid',pp:'Perkiraan haid',o:'Perkiraan ovulasi',f:'Masa subur',n:'Hari biasa'};
+
+function gal(){var g=S.gallery||[],h='',i;
+  for(i=0;i<5;i++)h+='<div class="slot">'+(g[i]?'<img src="'+g[i]+'" alt="Foto '+(i+1)+'"><button class="rm" onclick="rmGal('+i+')" aria-label="Hapus foto '+(i+1)+'">×</button>':'<button class="add" onclick="openGal('+i+')" aria-label="Tambah foto '+(i+1)+'">+</button>')+'</div>';
+  return h}
+function openGal(i){var p=$('#gp');p.dataset.i=i;p.value='';p.click()}
+function setGal(inp){var f=inp.files&&inp.files[0],i=+inp.dataset.i;if(!f)return;
+  var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){
+    var c=document.createElement('canvas'),z=360,m=Math.min(im.width,im.height);c.width=c.height=z;
+    c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,z,z);
+    S.gallery=S.gallery||[];S.gallery[i]=c.toDataURL('image/jpeg',.78);save();R()};im.src=r.result};r.readAsDataURL(f)}
+function rmGal(i){S.gallery[i]='';save();R()}
+function setPhoto(inp){
+  var f=inp.files&&inp.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){var im=new Image();im.onload=function(){
+    var c=document.createElement('canvas'),z=240,m=Math.min(im.width,im.height);c.width=c.height=z;
+    c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,z,z);
+    S.photo=c.toDataURL('image/jpeg',.8);save();R()};im.src=r.result};
+  r.readAsDataURL(f)
+}
+function R(){
+  var a=$('#app');
+  if(!S){a.innerHTML=form(true);return}
+  if(editing){a.innerHTML=form(false);return}
+  var st=stats(),t=today(),ts=fd(t);if(!sel)sel=ts;
+  var kt=kind(t,st),n1=add(st.last,st.cyc),late=diff(n1,t),k=1,ns=n1;
+  while(ns<t&&k<30){k++;ns=add(st.last,st.cyc*k)}
+  var days=diff(t,ns),ov=null,j;
+  for(j=1;j<30;j++){ov=add(st.last,st.cyc*j-14);if(ov>=t)break}
+  var big,sub;
+  if(kt==='p'){big='Hari ke-'+(diff(st.last,t)+1);sub='Sedang haid. Tekan Selesai kalau sudah berhenti.'}
+  else if(late>0&&late<=45){big='Terlambat '+late+' hari';sub='Dari perkiraan '+fmt(n1)+'. Catat kalau haid sudah datang.'}
+  else{big=days===0?'Hari ini':days+' hari lagi';sub='Perkiraan haid berikutnya '+fmt(ns)}
+  var age=Math.floor(diff(pd(S.dob),t)/365.25),op=openPeriod(ts),sd=pd(sel),sk=kind(sd,st),sop=openPeriod(sel);
+  var hist=st.ps.slice().reverse().map(function(p){
+    var l=p.end?(diff(pd(p.start),pd(p.end))+1)+' hari':'berlangsung';
+    return'<div class="hist"><span>'+fmt(pd(p.start))+(p.end?' sampai '+fmt(pd(p.end)):'')+'<br><span class="mut small">Lama haid: '+l+'</span></span><button class="x" onclick="del(\''+p.start+'\')">Hapus</button></div>'}).join('');
+  a.innerHTML=
+  '<div class="head"><button class="ava" onclick="$(\'#ph\').click()" aria-label="Pilih foto profil">'+(S.photo?'<img src="'+S.photo+'" alt="">':'🌸')+'</button><input id="ph" type="file" accept="image/*" style="display:none" onchange="setPhoto(this)"><div style="flex:1"><h1>Halo, '+esc(S.name)+'</h1><div class="mut small">'+age+' tahun, lahir '+fmt(pd(S.dob))+'</div></div><button class="gear" onclick="edit(true)">Profil</button></div>'+
+  '<div class="card"><div class="mut small">Haid berikutnya</div><div class="big">'+big+'</div><p style="margin:6px 0 0">'+sub+'</p>'+
+  (ov?'<p class="mut small" style="margin:6px 0 0">Perkiraan ovulasi '+fmt(ov)+', masa subur 5 hari sebelumnya. Rata-rata siklus '+st.cyc+' hari, lama haid '+st.len+' hari.</p>':'')+
+  '<div class="row">'+(kt==='p'&&op?'<button class="btn" onclick="endAt(\''+ts+'\')">Haid selesai hari ini</button>':'<button class="btn" onclick="startAt(\''+ts+'\')">Haid mulai hari ini</button>')+'</div></div>'+
+  '<div class="card">'+cal(st)+
+  '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><strong>'+fmt(sd)+'</strong><div class="mut small">'+LBL[sk]+'</div>'+
+  (sel<=ts?'<div class="row"><button class="btn ghost" onclick="startAt(\''+sel+'\')">Mulai haid di sini</button>'+(sop?'<button class="btn ghost" onclick="endAt(\''+sel+'\')">Selesai di sini</button>':'')+'</div>':'')+'</div></div>'+
+  '<div class="card"><h2>Riwayat haid</h2>'+hist+'</div>'+
+  '<div class="card"><h2>Galeri foto</h2><p class="mut small" style="margin:0 0 10px">Ketuk kotak untuk menambah foto. Foto hanya tersimpan di HP ini.</p><div class="gal">'+gal()+'</div><input id="gp" type="file" accept="image/*" style="display:none" onchange="setGal(this)"></div>'+
+  '<p class="mut small">Prediksi berupa perkiraan dari data yang kamu catat. Kalau siklus sangat tidak teratur atau ada keluhan, konsultasikan ke dokter.</p>'
+}
+sel=fd(today());R();
+</script></body></html>
